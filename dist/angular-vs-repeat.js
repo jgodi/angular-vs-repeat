@@ -563,8 +563,6 @@ function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else i
                 __startIndex = 0;
                 __endIndex = 1;
               } else {
-                _warnMismatch();
-
                 var relativeScroll = $scrollPosition - options.offsetBefore - scrollOffset;
 
                 var _binaryFind = binaryFind($scope.vsRepeat.sizesCumulative, relativeScroll - options.scrollMargin);
@@ -640,23 +638,6 @@ function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else i
               }
 
               return digestRequired;
-            }
-
-            function _warnMismatch() {
-              $scope.$$postDigest(function () {
-                window.requestAnimationFrame(function () {
-                  var expectedSize = $scope.vsRepeat.sizesCumulative[originalLength];
-                  var compStyle = window.getComputedStyle(repeatContainer[0]);
-                  var paddings = options.horizontal ? ['paddingLeft', 'paddingRight'] : ['paddingTop', 'paddingBottom'];
-                  var containerSize = repeatContainer[0][scrollSize] - paddings.reduce(function (acc, prop) {
-                    return acc + Number(compStyle[prop].slice(0, -2));
-                  }, 0);
-
-                  if (repeatContainer[0][scrollSize] && expectedSize !== containerSize) {
-                    console.warn('vsRepeat: size mismatch. Expected size ' + expectedSize + 'px whereas actual size is ' + containerSize + 'px. Fix vsSize on element:', $element[0]);
-                  }
-                });
-              });
             }
           }
         };

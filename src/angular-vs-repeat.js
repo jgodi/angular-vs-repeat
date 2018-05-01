@@ -568,8 +568,6 @@
                 __startIndex = 0;
                 __endIndex = 1;
               } else {
-                _warnMismatch();
-
                 const relativeScroll = $scrollPosition - options.offsetBefore - scrollOffset;
 
                 ([__startIndex] = binaryFind($scope.vsRepeat.sizesCumulative, relativeScroll - options.scrollMargin));
@@ -642,23 +640,6 @@
               }
 
               return digestRequired;
-            }
-
-            function _warnMismatch() {
-              $scope.$$postDigest(() => {
-                window.requestAnimationFrame(() => {
-                  const expectedSize = $scope.vsRepeat.sizesCumulative[originalLength];
-                  const compStyle = window.getComputedStyle(repeatContainer[0]);
-                  const paddings = options.horizontal ?
-                    ['paddingLeft', 'paddingRight']
-                    : ['paddingTop', 'paddingBottom'];
-                  const containerSize = repeatContainer[0][scrollSize] - paddings.reduce((acc, prop) => acc + Number(compStyle[prop].slice(0, -2)), 0);
-
-                  if (repeatContainer[0][scrollSize] && expectedSize !== containerSize) {
-                    console.warn('vsRepeat: size mismatch. Expected size ' + expectedSize + 'px whereas actual size is ' + containerSize + 'px. Fix vsSize on element:', $element[0]);
-                  }
-                });
-              });
             }
           },
         };
